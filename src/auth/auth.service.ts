@@ -21,13 +21,17 @@ export class AuthService {
     return this.userService.createUser(name, email, hashedPassword, role);
   }
 
-  async login(email: string, password: string): Promise<{ access_token: string }> {
-    const user = await this.userService.findByEmail(email);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    const payload = { email: user.email, sub: user.id };
-    return { access_token: this.jwtService.sign(payload) };
+// auth.service.ts
+async login(email: string, password: string): Promise<{ access_token: string; user: User }> {
+  const user = await this.userService.findByEmail(email);
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    throw new UnauthorizedException('Invalid credentials');
   }
+
+  const payload = { email: user.email, sub: user.id };
+  return { 
+    access_token: this.jwtService.sign(payload), 
+    user // Include the user object in the response
+  };
+}
 }

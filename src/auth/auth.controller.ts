@@ -1,5 +1,6 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -10,9 +11,9 @@ export class AuthController {
     @Body('name') name: string,
     @Body('email') email: string,
     @Body('password') password: string,
-    @Body('role') role: string, 
+    @Body('role') role: string,
   ) {
-    return this.authService.register(name, email, password, role);  // Pass role to the service
+    return this.authService.register(name, email, password, role);
   }
 
   @Post('login')
@@ -21,5 +22,12 @@ export class AuthController {
     @Body('password') password: string,
   ) {
     return this.authService.login(email, password);
+  }
+
+  @Post('logout')
+  async logout(@Req() request: Request, @Res() response: Response) {
+    // Here you can handle token invalidation if needed
+    response.clearCookie('access_token'); // Clear the cookie if you're using cookies for JWT
+    return response.status(200).json({ message: 'Logout successful' });
   }
 }

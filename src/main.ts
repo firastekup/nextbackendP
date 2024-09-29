@@ -6,8 +6,8 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 3000;
-
+  const port = 4000;
+  app.enableCors(); 
   await app.listen(port);
   
   // Log the server URL when the app starts
