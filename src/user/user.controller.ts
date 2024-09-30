@@ -20,27 +20,27 @@ export class UserController {
       @Body('email') email: string,
       @Body('password') password: string,
       @Body('role') role: string,
-  ): Promise<User> { // Specify return type
+  ): Promise<User> { 
       return this.userService.createUser(name, email, password, role);
-  } // Closing brace added
+  } 
 
   @Get()
-  async getUsers(): Promise<User[]> { // Specify return type
+  async getUsers(): Promise<User[]> { 
       return this.userService.getUsers();
   }
 
   @Get(':id')
-  async getUserById(@Param('id') userId: number): Promise<User> { // Specify return type
+  async getUserById(@Param('id') userId: number): Promise<User> { 
       return this.userService.getUserById(userId);
   }
 
   @Patch(':id')
-  async updateUser(@Param('id') id: number, @Body() updateData: Partial<User>): Promise<User> { // Specify return type
+  async updateUser(@Param('id') id: number, @Body() updateData: Partial<User>): Promise<User> { 
       return this.userService.updateUser(id, updateData);
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: number): Promise<void> { // Specify return type
+  async deleteUser(@Param('id') id: number): Promise<void> { 
       return this.userService.deleteUser(id);
   }
 }

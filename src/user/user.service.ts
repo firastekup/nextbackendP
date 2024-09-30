@@ -7,7 +7,7 @@ import { User } from './user.schema';
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>, // Specify the generic type here
+        private userRepository: Repository<User>, 
     ) {}
 
     async createUser(name: string, email: string, password: string, role: string): Promise<User> {
