@@ -23,7 +23,17 @@ export class LeaveController {
     return this.leaveService.getLeaves();
   }
 
-  @Patch(':id')
+  @Patch(':id/approve') // New route for approving leave
+  async approveLeave(@Param('id') id: number): Promise<Leave> {
+    return this.leaveService.updateLeave(id, { status: 'approved' });
+  }
+
+  @Patch(':id/reject') // New route for rejecting leave
+  async rejectLeave(@Param('id') id: number): Promise<Leave> {
+    return this.leaveService.updateLeave(id, { status: 'rejected' });
+  }
+
+  @Patch(':id') // Update leave with partial data
   async updateLeave(
     @Param('id') id: number,
     @Body() updateData: Partial<Leave>
