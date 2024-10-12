@@ -16,7 +16,7 @@ import { User } from './user/user.schema';
       username: 'root',
       password: '',
       database: 'employee_management',
-      entities: [User, Leave], 
+      entities: [User, Leave], // Add Leave entity here
       synchronize: true,
     }),
     UserModule,
