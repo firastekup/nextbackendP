@@ -3,9 +3,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import { LeaveModule } from './leave/leave.module'; // Import the new module
-import { Leave } from './leave/leave.schema';
+import { LeaveModule } from './leave/leave.module';
+import { EvaluationModule } from './evaluation/evaluation.module'; // Import the EvaluationModule
+import { TimeTrackingModule } from './time-tracking/time-tracking.module';
+import { ReportingModule } from './reporting/reporting.module';
 import { User } from './user/user.schema';
+import { Leave } from './leave/leave.schema';
+import { PerformanceEvaluation } from './evaluation/evaluation.schema';
+import { TimeTracking } from './time-tracking/TimeTracking-schema';
 
 @Module({
   imports: [
@@ -16,12 +21,15 @@ import { User } from './user/user.schema';
       username: 'root',
       password: '',
       database: 'employee_management',
-      entities: [User, Leave], // Add Leave entity here
+      entities: [User, Leave, PerformanceEvaluation, TimeTracking], // Add PerformanceEvaluation entity here if needed
       synchronize: true,
     }),
     UserModule,
     AuthModule,
     LeaveModule,
+    EvaluationModule, // Ensure it's included
+    TimeTrackingModule,
+    ReportingModule,
   ],
 })
 export class AppModule {}
