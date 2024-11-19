@@ -20,4 +20,7 @@ export class Leave {
 
   @Column({ nullable: true })
   notificationMessage: string; // New field for notifications
+
+  @Column({ nullable: true })
+  nomEmploye: string; // Nouveau champ ajouté
 }

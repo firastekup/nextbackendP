@@ -1,3 +1,4 @@
+// leave.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -10,8 +11,8 @@ export class LeaveService {
     private leaveRepository: Repository<Leave>,
   ) {}
 
-  async createLeave(employeeId: number, startDate: Date, endDate: Date): Promise<Leave> {
-    const leave = this.leaveRepository.create({ employeeId, startDate, endDate, status: 'pending' });
+  async createLeave(employeeId: number, startDate: Date, endDate: Date, nomEmploye?: string): Promise<Leave> {
+    const leave = this.leaveRepository.create({ employeeId, startDate, endDate, status: 'pending', nomEmploye });
     return this.leaveRepository.save(leave);
   }
 

@@ -8,12 +8,14 @@ export class LeaveController {
 
   @Post()
   async createLeave(
-    @Body() leaveData: { employeeId: number; startDate: Date; endDate: Date }
+    @Body() leaveData: { employeeId: number; startDate: Date; endDate: Date; nomEmploye: string }
   ): Promise<Leave> {
+    // Assurez-vous de transmettre le nomEmploye dans le service
     return this.leaveService.createLeave(
       leaveData.employeeId,
       leaveData.startDate,
-      leaveData.endDate
+      leaveData.endDate,
+      leaveData.nomEmploye // Le nom de l'employé est transmis ici
     );
   }
 
@@ -22,12 +24,12 @@ export class LeaveController {
     return this.leaveService.getLeaves();
   }
 
-  @Patch(':id/approve') // New route for approving leave
+  @Patch(':id/approve') // Route pour approuver le congé
   async approveLeave(@Param('id') id: number): Promise<Leave> {
     return this.leaveService.updateLeave(id, { status: 'approved' });
   }
 
-  @Patch(':id/reject') // New route for rejecting leave
+  @Patch(':id/reject') // Route pour rejeter le congé
   async rejectLeave(@Param('id') id: number): Promise<Leave> {
     return this.leaveService.updateLeave(id, { status: 'rejected' });
   }
@@ -37,7 +39,7 @@ export class LeaveController {
     return this.leaveService.getLeavesByEmployeeId(employeeId);
   }
 
-  @Patch(':id') // Update leave with partial data
+  @Patch(':id') // Mettre à jour un congé avec des données partielles
   async updateLeave(
     @Param('id') id: number,
     @Body() updateData: Partial<Leave>

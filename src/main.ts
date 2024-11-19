@@ -1,34 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = 4000;
-  
-  // Enable CORS
-  app.enableCors();
 
-  // Configure Swagger
-  const config = new DocumentBuilder()
-    .setTitle('My API')
-    .setDescription('API description')
-    .setVersion('1.0')
-    .addTag('my-api')
-    .build();
-  
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  // Activer CORS pour toutes les origines (si nécessaire)
+  app.enableCors({
+    origin: 'http://localhost:3000', // Permet uniquement les requêtes depuis localhost:3000
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Autorise les méthodes que vous souhaitez
+    allowedHeaders: ['Content-Type', 'Authorization'], // Autorise les en-têtes nécessaires
+  });
 
-  // Start the application
-  await app.listen(port);
-  
-  // Log the server URL when the app starts
-  console.log(`Server is running at http://localhost:${port}`);
-  console.log(`Swagger documentation available at http://localhost:${port}/api`);
+  await app.listen(4000);
 }
-
 bootstrap();

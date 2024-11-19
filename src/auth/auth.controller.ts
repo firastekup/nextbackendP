@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 
@@ -21,13 +21,18 @@ export class AuthController {
     @Body('email') email: string,
     @Body('password') password: string,
   ) {
-    return this.authService.login(email, password);
+    const { access_token, user } = await this.authService.login(email, password);
+    return {
+      message: 'Login successful',
+      access_token,
+      user,
+      redirectTo: user.role === 'admin' ? '/admin/dashboard' : '/user/dashboard',
+    };
   }
 
   @Post('logout')
-  async logout(@Req() request: Request, @Res() response: Response) {
-    // Here you can handle token invalidation if needed
-    response.clearCookie('access_token'); // Clear the cookie if you're using cookies for JWT
-    return response.status(200).json({ message: 'Logout successful' });
+  async logout(@Res() response: Response) {
+    response.clearCookie('access_token');
+    return response.status(HttpStatus.OK).json({ message: 'Logout successful' });
   }
 }
